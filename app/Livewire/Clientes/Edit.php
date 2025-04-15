@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class Edit extends Component
 {
-    public $clienteId;
+    public $cliente;
     public $nome;
     public $endereco;
     public $telefone;
@@ -15,16 +15,17 @@ class Edit extends Component
     public $email;
     public $senha;
 
-    public function rules() {
+    public function rules()
+    {
         return [
-        'nome' => 'required|string|min:3|max:100',
-        'endereco' => 'required|string|max:255',
-        'telefone' => 'required|regex:/^\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}$/',
-        'cpf' => 'required|unique:clientes,cpf,'.$this->clienteId,
-        'email' => 'required|email|unique:clientes,email,'.$this->clienteId,
-        'senha' => 'nullable|min:6',
-    ];
-}
+            'nome' => 'required|string|min:3|max:100',
+            'endereco' => 'required|string|max:255',
+            'telefone' => 'required|regex:/^\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}$/',
+            'cpf' => 'required|unique:clientes,cpf,' . $this->cliente->id,
+            'email' => 'required|email|unique:clientes,email,' . $this->cliente->id,
+            'senha' => 'nullable|min:6',
+        ];
+    }
 
     protected $messages = [
         'nome.required' => 'O nome é obrigatório',
@@ -40,12 +41,10 @@ class Edit extends Component
         'senha.min' => 'A senha deve ter pelo menos 6 caracteres',
     ];
 
-    // Método mount para injetar o id do cliente na inicialização
-    public function mount($id)
+    // Recebendo o model Cliente diretamente pela URL
+    public function mount(Cliente $cliente)
     {
-        // Buscando o cliente pelo ID
-        $cliente = Cliente::findOrFail($id);
-        $this->clienteId = $cliente->id;
+        $this->cliente = $cliente;
         $this->nome = $cliente->nome;
         $this->endereco = $cliente->endereco;
         $this->telefone = $cliente->telefone;
@@ -55,10 +54,7 @@ class Edit extends Component
 
     public function update()
     {
-        $this->validate(); // Validação dos dados
-
-        // Atualizando o cliente
-        $cliente = Cliente::find($this->clienteId);
+        $this->validate();
 
         $data = [
             'nome' => $this->nome,
@@ -68,14 +64,12 @@ class Edit extends Component
             'email' => $this->email
         ];
 
-        // Se a senha foi informada, atualiza também
         if ($this->senha) {
             $data['senha'] = bcrypt($this->senha);
         }
 
-        $cliente->update($data); // Atualiza o cliente
+        $this->cliente->update($data);
 
-        // Mensagem de sucesso
         session()->flash('success', 'Cliente atualizado com sucesso!');
     }
 
