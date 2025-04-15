@@ -10,7 +10,15 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Funcionario\FuncionarioCreate;
 use App\Livewire\Funcionario\FuncionarioEdit;
 use App\Livewire\Funcionario\FuncionarioShow;
-use App\livewire\Funcionario\FuncionarioIndex;
+use App\Livewire\Funcionario\FuncionarioIndex;
+
+use App\Livewire\Pedido\PedidosEdit;
+use App\Livewire\Pedido\PedidosShow;
+use App\livewire\Pedido\PedidosIndex;
+use App\Livewire\Pedidos\PedidosCreate;
+use App\Livewire\Pedidos\PedidosEdit as PedidosPedidosEdit;
+use App\Livewire\Pedidos\PedidosIndex as PedidosPedidosIndex;
+use App\Livewire\Pedidos\PedidosShow as PedidosPedidosShow;
 
 Route::prefix('clientes')->group(function () {
     Route::get('/', \App\Livewire\Clientes\Index::class)->name('clientes.index');
@@ -31,6 +39,13 @@ Route::prefix('funcionarios')->group(function () {
     Route::get('/create', FuncionarioCreate::class)->name('funcionarios.create');
     Route::get('/{funcionario}', FuncionarioShow::class)->name('funcionarios.show');
     Route::get('/{funcionario}/edit', FuncionarioEdit::class)->name('funcionarios.edit');
+});
+
+Route::prefix('pedidos')->group(function () {
+    Route::get('/', PedidosPedidosIndex::class)->name('pedidos.index');
+    Route::get('/create', PedidosCreate::class)->name('pedidos.create');
+    Route::get('/{pedido}', PedidosPedidosShow::class)->name('pedidos.show');
+    Route::get('/{pedido}/edit', PedidosPedidosEdit::class)->name('pedidos.edit');
 });
 
 
