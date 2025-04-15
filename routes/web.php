@@ -1,5 +1,9 @@
 <?php
 
+use App\Livewire\Admin\AdminCreate;
+use App\Livewire\Admin\AdminEdit;
+use App\Livewire\Admin\AdminIndex;
+use App\Livewire\Admin\AdminShow;
 use App\Livewire\Clientes\Create;
 use App\Livewire\Produto\ProdutoCreate;
 use App\Livewire\Produto\ProdutoEdit;
@@ -46,6 +50,13 @@ Route::prefix('pedidos')->group(function () {
     Route::get('/create', PedidosCreate::class)->name('pedidos.create');
     Route::get('/{pedido}', PedidosPedidosShow::class)->name('pedidos.show');
     Route::get('/{pedido}/edit', PedidosPedidosEdit::class)->name('pedidos.edit');
+});
+
+Route::prefix('admin')->group(function () {
+    Route::get('/', AdminIndex::class)->name('admin.index');
+    Route::get('/create', AdminCreate::class)->name('admin.create');
+    Route::get('/{admin}', AdminShow::class)->name('admin,show');
+    Route::get('/{admin}/edit', AdminEdit::class)->name('admin.edit');
 });
 
 
