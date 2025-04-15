@@ -18,6 +18,8 @@ class Produto extends Model
 
     public function pedidos()
     {
-        //return $this->belongsToMany(Pedido::class)->withPivot('quantidade', 'valor_unitario');
+        return $this->belongsToMany(Pedidos::class, 'pedido_produto', 'produto_id', 'pedido_id')
+            ->withPivot('quantidade', 'valor_unitario')
+            ->withTimestamps();
     }
 }
